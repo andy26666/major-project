@@ -1,10 +1,7 @@
-// Project Title
-// Your Name
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
-
+// Major Project
+// 2024 11 19
+// Kevin Lee
+// CS30 
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -12,5 +9,5 @@ function setup() {
 
 function draw() {
   background(220);
-  circle(mouseX, mouseY, 100);
+
 }

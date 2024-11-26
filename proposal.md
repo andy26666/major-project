@@ -4,23 +4,23 @@ Make 2d adventure dungeon game.
 
 ## Needs to Have
 
-- Make several different types of enemies
-- Few boss
-- Make Player set
+- Make several different types of enemies, and few boss, 
+    create AI for enemy
+- Make Player setting, 
     Appearance, motion(like walk, run, jump, attack)
-- Make map
+- Make map, 
     Display the location and player's current location
-- Make weapons and armors
+- Make weapons and armors, 
     Able to get by merchant, enemy or boss
-- Music and background
-- Merchant
+- Music and background, 
+- Merchant, 
     Able to purchase weapon, armor, and some useful stuff
     Upgrade the weapon and armor
 
 ## Nices to Have
 - Make several playable character
 - Create some puzzle 
-- Create game difficulty level
+- Create game difficulty level, 
     increase enemies's health and strength, make time limit
-- Item 
+- Item, 
     medicine, damage booster

@@ -19,8 +19,6 @@ Make 2d adventure dungeon game.
 
 ## Nices to Have
 - Make several playable character
-- Make stat for character
-    Make player more stronger
 - Create some puzzle 
 - Create game difficulty level
     increase enemies's health and strength, make time limit

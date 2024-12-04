@@ -15,6 +15,8 @@ Make 2d adventure dungeon game.
     - Display the location and player's current
 - background music and sound fx
 - background image
+- story
+
 
 ## Nices to Have
 - Make weapons and armors,

@@ -1,10 +1,4 @@
-// weapon image
-let bloodblade;
-let metorblade;
-let wizzarblade;
-let curvesword;
-
-class Weapon {
+class Weaponofplayer {
   constructor(sheet, x, y) {
     this.sheet = sheet; 
     this.x = x; 

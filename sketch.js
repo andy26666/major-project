@@ -1,4 +1,7 @@
 // player image
+//all weapons in game
+const TOTAL_AMOUNT_OF_WEAPON = 6;
+
 let walk;
 let run;
 let jump;
@@ -9,12 +12,14 @@ let act;
 let character;
 let allWeapons;
 let whatWeapon;
+let newWeapons;
+let newStuff;
 
-let itemorder = 0;
 let inventory;
 let inventorystatus = "closed"; 
+let howMuchWeapon = 0;
 let isholdWeapon = false;
-let isnewItem = true;
+let isnewItem = false;;
 let newItem;
 
 function preload() {
@@ -37,22 +42,24 @@ function setup() {
   inventory = new Inventory(3,5);
   act = idle;
   whatWeapon = metorblade;
+  newStuff = lord_of_flame_weapon;
   
-  newItem = new Item('whatWeapon', metorblade);
+  newItem = new Item('whatWeapon', whatWeapon);
   inventory.addItem(newItem);
   
   character = new Sprite(act, 100, 200);
-  allWeapons = new Weapon(whatWeapon, 100, 200);
+  allWeapons = new Weaponofplayer(whatWeapon, 100, 200);
+  newWeapons = new Weaponofnew(newStuff, 300, 200);
 }
 
 function draw() {
   // Position the weapon based on direction
-  if (isholdWeapon && isnewItem && moveDirect === "right"){
+  if (isholdWeapon && moveDirect === "right"){
     allWeapons.x = character.x + 20; 
     allWeapons.y = character.y; 
   }
   // If the character is facing left
-  else if (isholdWeapon && isnewItem && moveDirect === "left") {
+  else if (isholdWeapon && moveDirect === "left") {
     allWeapons.x = character.x + 12;
     allWeapons.y = character.y;
   } 
@@ -80,6 +87,7 @@ function draw() {
     character.life();
     character.staminaSet();
     character.hpset();
+    newWeapons.display();
   }
   else {
     background(0);
@@ -89,6 +97,12 @@ function draw() {
     text('INVENTORY', width/2-55, 50);
   }
 
+  //check if player get new weapon
+  if (isnewItem) {
+    newItem = new Item('newWeapons', newStuff);
+    inventory.addItem(newItem);
+    isnewItem = false;
+  }
 }
 
 function mouseClicked(){

@@ -22,11 +22,17 @@ class Sprite {
   }
 
   act() {
-    this.show();
+    if (hp <= 0 && heartx < 20) {
+      return;
+    }
     this.move();
     this.running();
     this.jumping();
     this.interactweapon();
+    this.animation();
+    this.life();
+    this.hpset();
+    this.staminaset();
   }
 
   show() {
@@ -46,17 +52,25 @@ class Sprite {
     // Set the action based on key presses
     if (this.isJumping) {
       act = jump;
-    } else if ((keyIsDown(68) || keyIsDown(65)) && !this.isJumping && !keyIsDown(16)) {
+    } 
+    else if ((keyIsDown(68) || keyIsDown(65)) && !this.isJumping && !keyIsDown(16)) {
       act = walk;  // Walking animation when left or right is pressed
-    } else if (keyIsDown(16) && stamina > 0 && (keyIsDown(68) || keyIsDown(65))) {
-      act = run;  // 
-    } else {
+    } 
+    else if (keyIsDown(16) && stamina > 0 && (keyIsDown(68) || keyIsDown(65))) {
+      act = run;  
+    } 
+    else if (act !== death) {
       act = idle;  
     }
+  }
+  animationframe() {
     if (act !== idle) {
       this.frame += 0.1;
-      if (this.frame >= floor(this.frames) && act) {
+      if (this.frame >= floor(this.frames) && act !== death) {
         this.frame = 0;
+      }
+      if (this.frame >= floor(this.frames) && act === death) {
+        isdead = true;
       }
     }
   }
@@ -117,17 +131,16 @@ class Sprite {
     if (hp === 0) {
       heartx -= 30;
       hp = 400;
-      isHit = false;
     }
-    if (heartx === 20) {
-      console.log("dead");
+    if (heartx < 20) {
+      hp = 0;
     }
     for (let x = 20; x <= heartx; x += 30) {
       heart(x, 75, 20);
     }
   }
 
-  staminaSet() {
+  staminaset() {
     if (keyIsDown(16) && (keyIsDown(65) || keyIsDown(68))) {
       if (stamina > 0) {
         stamina -= 0.5;

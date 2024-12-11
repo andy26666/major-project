@@ -47,7 +47,8 @@ class Weaponofplayer {
     if (moveDirect === "right" && isholdWeapon) {
       rotate(angle);
       image(this.sheet, 0, offsetY, 25, 25);
-    } else if (moveDirect === "left" && isholdWeapon) {
+    } 
+    else if (moveDirect === "left" && isholdWeapon) {
       scale(-1, 1); // Flip horizontally
       rotate(-angle); 
       image(this.sheet, 0, offsetY, 25, 25); 

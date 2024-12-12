@@ -15,6 +15,7 @@ let whatWeapon;
 let newWeapons;
 let newStuff;
 
+let showCurrentwep = 'red';
 let isdead = false;
 let inventory;
 let setting;
@@ -44,7 +45,7 @@ function preload() {
 function setup() {
   createCanvas(400, 400);
   inventory = new Inventory(3,5);
-  setting = new Setting(3,5);
+  setting = new Setting(3,3);
   act = idle;
   whatWeapon = metorblade;
   newStuff = lord_of_flame_weapon;
@@ -55,6 +56,12 @@ function setup() {
   inventory.addItem(new Item('Boss Weapon', bossweapon));
   inventory.addItem(new Item('Lord of Flame Weapon', lord_of_flame_weapon));
   inventory.addItem(new Item('Curve Sword', curvesword));
+  
+  setting.addSetting(new Settingbutton('Sound'));
+  setting.addSetting(new Settingbutton('Graphics'));
+  setting.addSetting(new Settingbutton('Controls'));
+  setting.addSetting(new Settingbutton('Language'));
+  setting.addSetting(new Settingbutton('Brightness'));
   
   
   character = new Sprite(act, 100, 200);
@@ -86,7 +93,7 @@ function draw() {
     }
 
     // inventory display on Esc key, hide on U key
-    if (keyIsDown(27) && inventorystatus === "closed") {  
+    if (keyIsDown(27) && inventorystatus === "closed" && settingstatus === "closed") {  
       inventorystatus = "opened"; 
     }
     if (keyIsDown(85) && inventorystatus === "opened") {
@@ -94,7 +101,7 @@ function draw() {
     }
 
     //key p
-    if (keyIsDown(80) && settingstatus === "closed") {  
+    if (keyIsDown(80) && settingstatus === "closed" && inventorystatus === "closed") {  
       settingstatus = "opened"; 
     }
     // key o
@@ -121,12 +128,15 @@ function draw() {
       inventory.display();
       fill("white");
       textSize(20);
-      text('INVENTORY', width/2-55, 50);
+      text('INVENTORY', width/2-60, 50);
     }
 
     else if (settingstatus === "opened") {
       background(220);
       setting.display();
+      fill("black");
+      textSize(20);
+      text('SETTING', width/2, 50);
     }
   }
 }
@@ -142,5 +152,8 @@ function mousePressed() {
   allWeapons.attack();
   if (inventorystatus === "opened") {
     inventory.checkItemClick(mouseX, mouseY);
+  }
+  if (settingstatus === "opened") {
+    setting.checkSettingClick(mouseX, mouseY);
   }
 }

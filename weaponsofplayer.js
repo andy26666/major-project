@@ -56,3 +56,15 @@ class Weaponofplayer {
     pop();
   }
 }
+
+class Weaponability extends Weaponofplayer {
+  constructor(sheet, x, y, name) {
+    super(sheet,x,y);
+    this.name = name;
+  }
+  ability() {
+    if (this.name === "metorblade") {
+      
+    }
+  }
+}

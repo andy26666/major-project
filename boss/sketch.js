@@ -29,6 +29,7 @@ function preload() {
   bossattack = loadImage("/allimage/bossattack.png");
   bossdeath = loadImage("/allimage/bossdeath.png");
   bossidle = loadImage("/allimage/bossidle.png");
+  bossjump = loadImage("/allimage/bossjump.png");
   
   swords2020 = loadImage("/allimage/2020weapon.png");
   swords2021 = loadImage("/allimage/2021weapon.png");

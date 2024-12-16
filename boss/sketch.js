@@ -10,6 +10,7 @@ let bosswalk;
 let bossattack;
 let bossdeath;
 let bossidle;
+let bossjump;
 let moveDirect = "left";
 let isdead = false;
 let boss;
@@ -26,7 +27,7 @@ let swordsarr = [];
 
 function preload() {
   bosswalk = loadImage("/boss/allimage/bosswalk.png");
-  bossattack = loadImage("boss//allimage/bossattack.png");
+  bossattack = loadImage("/boss/allimage/bossattack.png");
   bossdeath = loadImage("/boss/allimage/bossdeath.png");
   bossidle = loadImage("/boss/allimage/bossidle.png");
   bossjump = loadImage("/boss/allimage/bossjump.png");

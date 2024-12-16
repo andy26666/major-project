@@ -25,17 +25,17 @@ let swords2024;
 let swordsarr = [];
 
 function preload() {
-  bosswalk = loadImage("/allimage/bosswalk.png");
-  bossattack = loadImage("/allimage/bossattack.png");
-  bossdeath = loadImage("/allimage/bossdeath.png");
-  bossidle = loadImage("/allimage/bossidle.png");
-  bossjump = loadImage("/allimage/bossjump.png");
+  bosswalk = loadImage("/boss/allimage/bosswalk.png");
+  bossattack = loadImage("boss//allimage/bossattack.png");
+  bossdeath = loadImage("/boss/allimage/bossdeath.png");
+  bossidle = loadImage("/boss/allimage/bossidle.png");
+  bossjump = loadImage("/boss/allimage/bossjump.png");
   
-  swords2020 = loadImage("/allimage/2020weapon.png");
-  swords2021 = loadImage("/allimage/2021weapon.png");
-  swords2022 = loadImage("/allimage/2022weapon.png");
-  swords2023 = loadImage("/allimage/2023weapon.png");
-  swords2024 = loadImage("/allimage/2024weapon.png");
+  swords2020 = loadImage("/boss/allimage/2020weapon.png");
+  swords2021 = loadImage("/boss/allimage/2021weapon.png");
+  swords2022 = loadImage("/boss/allimage/2022weapon.png");
+  swords2023 = loadImage("/boss/allimage/2023weapon.png");
+  swords2024 = loadImage("/boss/allimage/2024weapon.png");
 }
 
 

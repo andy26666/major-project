@@ -28,18 +28,18 @@ let newItem;
 let inventoryorder = 0;
 
 function preload() {
-  idle = loadImage("/player/idle.png");
-  walk = loadImage("/player/walk.png");
-  run = loadImage("/player/run.png");
-  jump = loadImage("/player/jump.png");
-  death = loadImage("/player/death.png");
+  idle = loadImage("/major-project/player/idle.png");
+  walk = loadImage("/major-project/player/walk.png");
+  run = loadImage("/major-project/player/run.png");
+  jump = loadImage("/major-project/player/jump.png");
+  death = loadImage("/major-project/player/death.png");
 
-  bloodblade = loadImage("/weapon/bloodblade.png");
-  metorblade = loadImage("/weapon/metorblade.png");
-  wizzarblade = loadImage("/weapon/wizzar.png");
-  bossweapon = loadImage("/weaponofBoss/firstweapon.png");
-  lord_of_flame_weapon = loadImage("/weaponofBoss/flamelord.png");
-  curvesword = loadImage("/weapon/curvesword.png");
+  bloodblade = loadImage("/major-project/weapon/bloodblade.png");
+  metorblade = loadImage("/major-project/weapon/metorblade.png");
+  wizzarblade = loadImage("/major-project/weapon/wizzar.png");
+  bossweapon = loadImage("/major-project/weaponofBoss/firstweapon.png");
+  lord_of_flame_weapon = loadImage("/major-project/weaponofBoss/flamelord.png");
+  curvesword = loadImage("/major-project/weapon/curvesword.png");
 }
 
 function setup() {

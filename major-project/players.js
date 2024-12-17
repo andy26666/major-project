@@ -80,12 +80,14 @@ class Sprite {
     if (this.x < width - 30 && keyIsDown(68)) {
       moveDirect = "right";
       this.x++;
+      playersX = this.x;
     }
 
     // Move left
     if (this.x > 0 && keyIsDown(65)) {
       moveDirect = "left";
       this.x--;
+      playersX = this.x;
     }
   }
 

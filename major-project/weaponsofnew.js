@@ -5,6 +5,6 @@ class Weaponofnew {
       this.y = y; 
     }
     display() {
-      image(this.sheet, this.x, this.y, 25, 25);
+      //image(this.sheet, this.x, this.y, 25, 25);
     }
   }

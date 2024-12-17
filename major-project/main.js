@@ -14,6 +14,8 @@ let allWeapons;
 let whatWeapon;
 let newWeapons;
 let newStuff;
+let playersX = 100;
+let playersY = 215;
 
 let showCurrentwep = 'red';
 let isdead = false;
@@ -27,7 +29,44 @@ let isininventory = false;
 let newItem;
 let inventoryorder = 0;
 
+//for boss
+
+let bosswalk;
+let bossdeath;
+let bossidle;
+let bossjump;
+let bossmoveDirect = "left";
+let bossdead = false;
+let boss;
+let bossact;
+
+let bossX = 300;
+let bossY = 200;
+
+let finalbossidle;
+
+let swords2020;
+let swords2021;
+let swords2022;
+let swords2023;
+let swords2024;
+let swordsarr = [];
+
 function preload() {
+
+  bosswalk = loadImage("/major-project/allimage/bosswalk.png");
+  bossdeath = loadImage("/major-project/allimage/bossdeath.png");
+  bossidle = loadImage("/major-project/allimage/bossidle.png");
+  bossjump = loadImage("/major-project/allimage/bossjump.png");
+  
+  swords2020 = loadImage("/major-project/allimage/2020weapon.png");
+  swords2021 = loadImage("/major-project/allimage/2021weapon.png");
+  swords2022 = loadImage("/major-project/allimage/2022weapon.png");
+  swords2023 = loadImage("/major-project/allimage/2023weapon.png");
+  swords2024 = loadImage("/major-project/allimage/2024weapon.png");
+
+  finalbossidle = loadImage("/major-project/allimage/Agis.png");
+
   idle = loadImage("/major-project/player/idle.png");
   walk = loadImage("/major-project/player/walk.png");
   run = loadImage("/major-project/player/run.png");
@@ -49,6 +88,19 @@ function setup() {
   act = idle;
   whatWeapon = metorblade;
   newStuff = lord_of_flame_weapon;
+  bossact = bossidle;
+
+  let swordWidth = swords2024.width / 6; // 10 
+  let swordHeight = swords2024.height / 5; // 3 
+  
+  for (let row = 0; row < 5; row++) {
+    for (let col = 0; col < 6; col++) {
+      let x = col * swordWidth;
+      let y = row * swordHeight;
+      let sword = swords2024.get(x, y, swordWidth, swordHeight); 
+      swordsarr.push(sword);
+    }
+  }
   
   inventory.addItem(new Item('Blood Blade', bloodblade));
   inventory.addItem(new Item('Meteor Blade', metorblade));
@@ -62,11 +114,12 @@ function setup() {
   setting.addSetting(new Settingbutton('Controls'));
   setting.addSetting(new Settingbutton('Language'));
   setting.addSetting(new Settingbutton('Brightness'));
+
   
-  
-  character = new Sprite(act, 100, 200);
+  character = new Sprite(act, playersX, playersY);
   allWeapons = new Weaponofplayer(whatWeapon, 100, 200);
   newWeapons = new Weaponofnew(newStuff, 300, 200);
+  boss = new Boss(bossact, bossX,bossY);
   
 }
 
@@ -121,6 +174,11 @@ function draw() {
       character.show();
       character.animationframe();
       character.act();
+      boss.display();
+      boss.animation();
+      boss.animationframe();
+      //boss.attack();
+      image(swordsarr[28], bossX+5, 220, 25, 20);
 
     }
     else if (inventorystatus === "opened" && settingstatus === "closed"){

@@ -1,2 +1,1 @@
-- [Major-Project-boss] (boss)
 - [Major-Project] (major-project)

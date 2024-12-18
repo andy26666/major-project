@@ -28,6 +28,8 @@ let isholdWeapon = false;
 let isininventory = false;
 let newItem;
 let inventoryorder = 0;
+let bosswep;
+let bossheld;
 
 //for boss
 
@@ -101,6 +103,7 @@ function setup() {
       swordsarr.push(sword);
     }
   }
+  bossheld = swordsarr[28];
   
   inventory.addItem(new Item('Blood Blade', bloodblade));
   inventory.addItem(new Item('Meteor Blade', metorblade));
@@ -118,6 +121,7 @@ function setup() {
   
   character = new Sprite(act, playersX, playersY);
   allWeapons = new Weaponofplayer(whatWeapon, 100, 200);
+  bosswep = new Weaponofboss(bossheld, 300, 220);
   newWeapons = new Weaponofnew(newStuff, 300, 200);
   boss = new Boss(bossact, bossX,bossY);
   
@@ -177,8 +181,9 @@ function draw() {
       boss.display();
       boss.animation();
       boss.animationframe();
+      bosswep.update();
+      bosswep.display();
       //boss.attack();
-      image(swordsarr[28], bossX+5, 220, 25, 20);
 
     }
     else if (inventorystatus === "opened" && settingstatus === "closed"){

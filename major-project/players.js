@@ -194,4 +194,19 @@ function heart(x, y, size) {
   endShape(CLOSE);
 }
 
-
+function playerattacking() {
+  // Position the weapon based on direction
+  if (isholdWeapon && moveDirect === "right"){
+    allWeapons.x = character.x + 20; 
+    allWeapons.y = character.y; 
+  }
+  // If the character is facing left
+  else if (isholdWeapon && moveDirect === "left") {
+    allWeapons.x = character.x + 12;
+    allWeapons.y = character.y;
+  } 
+  else {
+    allWeapons.x = allWeapons.x;
+    allWeapons.y = allWeapons.y;
+  }
+}

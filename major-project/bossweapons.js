@@ -47,14 +47,14 @@ class Weaponofboss {
       let offsetY = this.isAttacking ? this.attackOffset : 0;
       let angle = this.isAttacking ? this.attackAngle : 0;
   
-      if (bossmoveDirect === "right") {
+      if (bossmoveDirect === "left") {
         rotate(angle);
-        image(this.sheet, 0, offsetY, 25, 25);
+        image(this.sheet, 0, offsetY, 20, 20);
       } 
-      else if (bossmoveDirect === "left") {
+      else if (bossmoveDirect === "right") {
         scale(-1, 1); // Flip horizontally
         rotate(-angle); 
-        image(this.sheet, 0, offsetY, 25, 25); 
+        image(this.sheet, 0, offsetY, 20, 20); 
       }
       pop();
     }

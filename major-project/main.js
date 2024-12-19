@@ -121,33 +121,25 @@ function setup() {
   
   character = new Sprite(act, playersX, playersY);
   allWeapons = new Weaponofplayer(whatWeapon, 100, 200);
-  bosswep = new Weaponofboss(bossheld, 300, 220);
   newWeapons = new Weaponofnew(newStuff, 300, 200);
   boss = new Boss(bossact, bossX,bossY);
+  bosswep = new Weaponofboss(bossheld, 300, 220);
   
 }
 
-function draw() {
+function draw() { 
+
+
   
   if (hp <= 0 && heartx < 20 ) {
     act = death;
     character.animationframe();
   }
   if (!isdead) {
-    // Position the weapon based on direction
-    if (isholdWeapon && moveDirect === "right"){
-      allWeapons.x = character.x + 20; 
-      allWeapons.y = character.y; 
-    }
-    // If the character is facing left
-    else if (isholdWeapon && moveDirect === "left") {
-      allWeapons.x = character.x + 12;
-      allWeapons.y = character.y;
-    } 
-    else {
-      allWeapons.x = allWeapons.x;
-      allWeapons.y = allWeapons.y;
-    }
+    //place of player weapon when player held weapon
+     playerattacking();
+    //place of boss weapon when boss held weapon
+     bossattacking();
 
     // inventory display on Esc key, hide on U key
     if (keyIsDown(27) && inventorystatus === "closed" && settingstatus === "closed") {  
@@ -179,6 +171,7 @@ function draw() {
       character.animationframe();
       character.act();
       boss.display();
+      boss.direct();
       boss.animation();
       boss.animationframe();
       bosswep.update();

@@ -26,20 +26,32 @@ class Boss {
         pop();
       }
     }
+
+    direct() {
+      if (this.x > bossX) {
+        bossmoveDirect = "right";
+        bossX = this.x;
+      }
+      else if (this.x < bossX) {
+        bossmoveDirect = "left";
+        bossX = this.x;
+      }
+      else {
+        bossmoveDirect = bossmoveDirect;
+        bossX = this.x;
+      }
+    }
   
     animation() {
       // Check if the mouse is outside the defined range of the boss
-      if (this.x - 30 > playersX || this.x + 60 < playersX) {
+      if (this.x - 35 > playersX || this.x + 65 < playersX) {
         bossact = bosswalk;  
         if (playersX < this.x) {
-          bossmoveDirect = "left";
           this.x -= this.speed; 
-          bossX = this.x;
+
         } 
         else if (playersX > this.x) {
-          bossmoveDirect = "right";
           this.x += this.speed;  
-          bossX = this.x;
         }
       } else {
         bossact = bossidle;
@@ -47,7 +59,7 @@ class Boss {
     }
   
     animationframe() {
-      if (act !== bossidle) {
+      if (bossact !== bossidle) {
         this.frame += 0.1;
         if (this.frame >= floor(this.frames) && bossact !== bossdeath) {
           this.frame = 0;
@@ -73,3 +85,18 @@ class Boss {
     }
   }
   
+function bossattacking() {
+  if (bossmoveDirect === "right"){
+    bosswep.x = boss.x + 57; 
+    bosswep.y = 218; 
+  }
+  // If the character is facing left
+  else if (bossmoveDirect === "left") {
+    bosswep.x = boss.x + 7;
+    bosswep.y = 218;
+  } 
+  else {
+    bosswep.x = boss.x;
+    bosswep.y = 218;
+  }
+}

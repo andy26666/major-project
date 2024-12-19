@@ -45,6 +45,10 @@ let bossact;
 let bossX = 300;
 let bossY = 200;
 
+let weaponV;
+let weaponsX = 100;
+let weaponsY = 200;
+
 let finalbossidle;
 
 let swords2020;
@@ -87,6 +91,8 @@ function setup() {
   createCanvas(400, 400);
   inventory = new Inventory(3,5);
   setting = new Setting(3,3);
+
+  weaponV = createVector(weaponsX, weaponsY);
   act = idle;
   whatWeapon = metorblade;
   newStuff = lord_of_flame_weapon;
@@ -120,7 +126,7 @@ function setup() {
 
   
   character = new Sprite(act, playersX, playersY);
-  allWeapons = new Weaponofplayer(whatWeapon, 100, 200);
+  allWeapons = new Weaponofplayer(whatWeapon, weaponsX, weaponsY);
   newWeapons = new Weaponofnew(newStuff, 300, 200);
   boss = new Boss(bossact, bossX,bossY);
   bosswep = new Weaponofboss(bossheld, 300, 220);

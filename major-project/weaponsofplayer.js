@@ -5,7 +5,8 @@ class Weaponofplayer {
     this.y = y;
     this.isAttacking = false;
     this.attackSpeed = 0.1; // Speed of weapon rotation
-    this.attackAngle = -PI / 8; // Initial attack angle (upward)
+    this.attackAngle = -PI / 8; 
+    this.oppositeattackAngle = PI / 8;
     this.maxAttackAngle = 0; // Maximum attack angle (horizontal)
   }
 
@@ -13,7 +14,6 @@ class Weaponofplayer {
   attack() {
     if (!this.isAttacking) {
       this.isAttacking = true;
-      this.attackAngle = -PI / 8;
     }
   }
 
@@ -29,11 +29,11 @@ class Weaponofplayer {
           this.attackAngle = -PI / 8; // Reset angle for the next attack
         }
       } else if (moveDirect === "left") {
-        this.maxAttackAngle = 0; // Slightly downward for left direction
-        this.attackAngle -= this.attackSpeed;
-        if (this.attackAngle <= this.maxAttackAngle) {
+        this.maxAttackAngle = -PI / 4; // Slightly downward for left direction
+        this.oppositeattackAngle -= this.attackSpeed;
+        if (this.oppositeattackAngle <= this.maxAttackAngle) {
           this.isAttacking = false;
-          this.attackAngle = PI / 4;
+          this.oppositeattackAngle = PI / 8;
         }
       }
     }
@@ -44,12 +44,13 @@ class Weaponofplayer {
     push();
     translate(this.x, this.y); // Position the weapon
     if (moveDirect === "right" && isholdWeapon) {
+      scale(1,1);
       rotate(this.attackAngle);
-      image(this.sheet, 0, 0, 25, 25);
+      image(this.sheet, -7, 0, 25, 25);
     } else if (moveDirect === "left" && isholdWeapon) {
       scale(-1, 1); // Flip horizontally
-      rotate(-this.attackAngle);
-      image(this.sheet, 0, 0, 25, 25);
+      rotate(-this.oppositeattackAngle);
+      image(this.sheet, -7, 0, 25, 25);
     }
     pop();
   }

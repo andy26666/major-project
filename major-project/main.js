@@ -190,7 +190,6 @@ function draw() {
       inventory.display();
       fill("white");
       textSize(20);
-      text('INVENTORY', width/2-60, 50);
     }
 
     else if (settingstatus === "opened") {

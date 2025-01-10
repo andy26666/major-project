@@ -1,18 +1,18 @@
 class Boss {
   constructor(sheet, x, y) {
-      this.sheet = sheet;
-      this.x = x;
-      this.y = y;
-      this.h = sheet.height;
-      this.frame = 0;
-      this.frames = floor(sheet.width / sheet.height);
-      this.isJumping = false;
-      this.velocityY = 0;
-      this.gravity = 0.5;
-      this.jumpStrength = -8;
-      this.groundLevel = y;
-      this.speed = 2;  
-    }
+    this.sheet = sheet;
+    this.x = x;
+    this.y = y;
+    this.h = sheet.height;
+    this.frame = 0;
+    this.frames = floor(sheet.width / sheet.height);
+    this.isJumping = false;
+    this.velocityY = 0;
+    this.gravity = 0.5;
+    this.jumpStrength = -8;
+    this.groundLevel = y;
+    this.speed = 2;  
+  }
     
     display() {
       if (bossmoveDirect === "right") {

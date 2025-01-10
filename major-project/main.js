@@ -30,6 +30,7 @@ let newItem;
 let inventoryorder = 0;
 let bosswep;
 let bossheld;
+let backgroundimg;
 
 //for boss
 
@@ -85,10 +86,12 @@ function preload() {
   bossweapon = loadImage("/major-project/weaponofBoss/firstweapon.png");
   lord_of_flame_weapon = loadImage("/major-project/weaponofBoss/flamelord.png");
   curvesword = loadImage("/major-project/weapon/curvesword.png");
+  backgroundimg = loadImage("/major-project/background-resource/first stage.png");
+  
 }
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(800, 600);
   inventory = new Inventory(3,5);
   setting = new Setting(3,3);
 
@@ -167,7 +170,7 @@ function draw() {
   
     //display hp,stamina, life only inventory is closed
     if (inventorystatus === "closed" && settingstatus === "closed") {
-      background(220);
+      background(backgroundimg);
       allWeapons.display();
       allWeapons.update();
       if (!isininventory) {

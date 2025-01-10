@@ -13,7 +13,7 @@ class Sprite {
     this.y = y;
     this.h = sheet.height;
     this.frame = 0;
-    this.frames = floor(sheet.width / sheet.height);
+    this.frames = floor(sheet.width/ sheet.height);
     this.isJumping = false;
     this.velocityY = 0;
     this.gravity = 0.5;
@@ -37,12 +37,12 @@ class Sprite {
 
   show() {
     if (moveDirect === "right") {
-      image(act, this.x, this.y, this.h, this.h,
+      image(act, this.x, this.y, this.h/2, this.h/2,
         this.h * floor(this.frame), 0, this.h, this.h);
     } else if (moveDirect === "left") {
       push();
       scale(-1, 1); // Flip the sprite for left movement
-      image(act, -this.x - this.h, this.y, this.h, this.h,
+      image(act, -this.x - this.h, this.y, this.h/2, this.h/2,
         this.h * floor(this.frame), 0, this.h, this.h);
       pop();
     }

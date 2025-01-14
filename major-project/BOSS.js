@@ -6,11 +6,6 @@ class Boss {
     this.h = sheet.height;
     this.frame = 0;
     this.frames = floor(sheet.width / sheet.height);
-    this.isJumping = false;
-    this.velocityY = 0;
-    this.gravity = 0.5;
-    this.jumpStrength = -8;
-    this.groundLevel = y;
     this.speed = 2;  
   }
     

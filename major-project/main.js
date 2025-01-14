@@ -4,7 +4,6 @@ const TOTAL_AMOUNT_OF_WEAPON = 6;
 
 let walk;
 let run;
-let jump;
 let death;
 let idle;
 
@@ -37,7 +36,6 @@ let backgroundimg;
 let bosswalk;
 let bossdeath;
 let bossidle;
-let bossjump;
 let bossmoveDirect = "left";
 let bossdead = false;
 let boss;
@@ -64,7 +62,6 @@ function preload() {
   bosswalk = loadImage("/major-project/allimage/bosswalk.png");
   bossdeath = loadImage("/major-project/allimage/bossdeath.png");
   bossidle = loadImage("/major-project/allimage/bossidle.png");
-  bossjump = loadImage("/major-project/allimage/bossjump.png");
   
   swords2020 = loadImage("/major-project/allimage/2020weapon.png");
   swords2021 = loadImage("/major-project/allimage/2021weapon.png");
@@ -77,7 +74,6 @@ function preload() {
   idle = loadImage("/major-project/player/idle.png");
   walk = loadImage("/major-project/player/walk.png");
   run = loadImage("/major-project/player/run.png");
-  jump = loadImage("/major-project/player/jump.png");
   death = loadImage("/major-project/player/death.png");
 
   bloodblade = loadImage("/major-project/weapon/bloodblade.png");
@@ -140,7 +136,7 @@ function draw() {
 
 
   
-  if (hp <= 0 && heartx < 20 ) {
+  if (heartx < 20 ) {
     act = death;
     character.animationframe();
   }
@@ -170,7 +166,12 @@ function draw() {
   
     //display hp,stamina, life only inventory is closed
     if (inventorystatus === "closed" && settingstatus === "closed") {
-      background(backgroundimg);
+      //background(backgroundimg);
+      push();
+      image(backgroundimg, 0, 0,width,height); // Display player
+      pop();
+      square(character.x-20,character.y-20, character.x+20, character.y+20);
+
       allWeapons.display();
       allWeapons.update();
       if (!isininventory) {

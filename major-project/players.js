@@ -1,5 +1,4 @@
-let hp = 400;
-let maxhp = 400;
+
 let stamina = 400;
 let maxStamina = 400;
 let moveDirect = "right";
@@ -14,35 +13,28 @@ class Sprite {
     this.h = sheet.height;
     this.frame = 0;
     this.frames = floor(sheet.width/ sheet.height);
-    this.isJumping = false;
-    this.velocityY = 0;
-    this.gravity = 0.5;
-    this.jumpStrength = -8;
-    this.groundLevel = y;
   }
 
   act() {
-    if (hp <= 0 && heartx < 20) {
+    if (heartx < 20) {
       return;
     }
     this.move();
     this.running();
-    this.jumping();
     this.interactweapon();
     this.animation();
     this.life();
-    this.hpset();
     this.staminaset();
   }
 
   show() {
     if (moveDirect === "right") {
-      image(act, this.x, this.y, this.h/2, this.h/2,
+      image(act, this.x, this.y, this.h, this.h,
         this.h * floor(this.frame), 0, this.h, this.h);
     } else if (moveDirect === "left") {
       push();
       scale(-1, 1); // Flip the sprite for left movement
-      image(act, -this.x - this.h, this.y, this.h/2, this.h/2,
+      image(act, -this.x - this.h, this.y, this.h, this.h,
         this.h * floor(this.frame), 0, this.h, this.h);
       pop();
     }
@@ -50,10 +42,7 @@ class Sprite {
 
   animation() {
     // Set the action based on key presses
-    if (this.isJumping) {
-      act = jump;
-    } 
-    else if ((keyIsDown(68) || keyIsDown(65)) && !this.isJumping && !keyIsDown(16)) {
+    if ((keyIsDown(68) || keyIsDown(65)) && !keyIsDown(16)) {
       act = walk;  // Walking animation when left or right is pressed
     } 
     else if (keyIsDown(16) && stamina > 0 && (keyIsDown(68) || keyIsDown(65))) {
@@ -89,6 +78,14 @@ class Sprite {
       this.x--;
       playersX = this.x;
     }
+    if (this.y > 0 && keyIsDown(87)) {
+      this.y--;
+      playersY = this.y;
+    }
+    if (this.y < height - 30 && keyIsDown(83)) {
+      this.y++;
+      playersY = this.y;
+    }
   }
 
   running() {
@@ -111,32 +108,8 @@ class Sprite {
     }
   }
 
-  jumping() {
-    if (keyIsDown(32) && !this.isJumping && stamina >= 20) {
-      this.isJumping = true;
-      this.velocityY = this.jumpStrength;
-      stamina -= 20;
-    }
-
-    if (this.isJumping) {
-      this.y += this.velocityY;
-      this.velocityY += this.gravity;
-      if (this.y >= this.groundLevel) {
-        this.y = this.groundLevel;
-        this.isJumping = false;
-        this.velocityY = 0;
-      }
-    }
-  }
 
   life() {
-    if (hp === 0) {
-      heartx -= 30;
-      hp = 400;
-    }
-    if (heartx < 20) {
-      hp = 0;
-    }
     for (let x = 20; x <= heartx; x += 30) {
       heart(x, 75, 20);
     }
@@ -162,17 +135,6 @@ class Sprite {
     rect(10, 10, map(stamina, 0, maxStamina, 0, 200), 20);
   }
 
-  hpset() {
-    hp = constrain(hp, 0, maxhp);
-    stroke(0);
-    strokeWeight(4);
-    noFill();
-    rect(10, 40, 200, 20);
-    noStroke();
-    fill(255, 0, 0);
-    rect(10, 40, map(hp, 0, maxhp, 0, 200), 20);
-  }
-  
   interactweapon() {
     //key e
     if (keyIsDown(69) && !isholdWeapon) {

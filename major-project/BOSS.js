@@ -1,3 +1,4 @@
+
 class Boss {
   constructor(sheet, x, y) {
     this.sheet = sheet;
@@ -49,7 +50,13 @@ class Boss {
           this.x += this.speed;  
         }
       } else {
-        bossact = bossidle;
+        let currentTime = millis();
+        if (currentTime % 3000 === 0) {
+          bossact = bossidle;
+        }
+        else {
+          bossact = bossattack;
+        }
       }
     }
   
@@ -62,20 +69,6 @@ class Boss {
         if (this.frame >= floor(this.frames) && bossact === bossdeath) {
           isdead = true;
         }
-      }
-    }
-
-    attack() {
-      let attPercent = random(100);
-
-      if (attPercent < 50) {
-        console.log("normal attack");
-      }
-      else if (attPercent < 75) {
-        console.log("Ability");
-      }
-      else {
-        console.log("Ultimate");
       }
     }
   }

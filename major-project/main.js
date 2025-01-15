@@ -29,13 +29,16 @@ let newItem;
 let inventoryorder = 0;
 let bosswep;
 let bossheld;
-let backgroundimg;
+let first_stageimg;
+let second_stageimg;
+let final_stageimg;
 
 //for boss
 
 let bosswalk;
 let bossdeath;
 let bossidle;
+let bossattack;
 let bossmoveDirect = "left";
 let bossdead = false;
 let boss;
@@ -62,6 +65,7 @@ function preload() {
   bosswalk = loadImage("/major-project/allimage/bosswalk.png");
   bossdeath = loadImage("/major-project/allimage/bossdeath.png");
   bossidle = loadImage("/major-project/allimage/bossidle.png");
+  bossattack = loadImage("/major-project/allimage/crow_attack.png");
   
   swords2020 = loadImage("/major-project/allimage/2020weapon.png");
   swords2021 = loadImage("/major-project/allimage/2021weapon.png");
@@ -82,8 +86,10 @@ function preload() {
   bossweapon = loadImage("/major-project/weaponofBoss/firstweapon.png");
   lord_of_flame_weapon = loadImage("/major-project/weaponofBoss/flamelord.png");
   curvesword = loadImage("/major-project/weapon/curvesword.png");
-  backgroundimg = loadImage("/major-project/background-resource/first stage.png");
-  
+  first_stageimg = loadImage("/major-project/background-resource/first stage.png");
+  final_stageimg = loadImage("/major-project//background-resource/final stage.png");
+  second_stageimg = loadImage("/major-project/background-resource/second stage.png");
+
 }
 
 function setup() {
@@ -133,7 +139,7 @@ function setup() {
 }
 
 function draw() { 
-
+  background("white");
 
   
   if (heartx < 20 ) {
@@ -168,9 +174,10 @@ function draw() {
     if (inventorystatus === "closed" && settingstatus === "closed") {
       //background(backgroundimg);
       push();
-      image(backgroundimg, 0, 0,width,height); // Display player
+      //image(second_stageimg, 0, 0,width,height); // Display player
+
       pop();
-      square(character.x-20,character.y-20, character.x+20, character.y+20);
+      //square(character.x-20,character.y-20, character.x+20, character.y+20);
 
       allWeapons.display();
       allWeapons.update();
@@ -186,7 +193,6 @@ function draw() {
       boss.animationframe();
       bosswep.update();
       bosswep.display();
-      //boss.attack();
 
     }
     else if (inventorystatus === "opened" && settingstatus === "closed"){

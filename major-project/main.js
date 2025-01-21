@@ -154,13 +154,14 @@ function draw() {
 }
 
 function resetGame() {
+  currentstage = firstfloor;
   playerHealth = 100;
-  enemyHealth = 100;
-  bossHealth = 200;
+  enemyHealth = 50;
+  bossHealth = 75;
   player.x = currentstage.width / 4 + 30;
   player.y = 160;
-  enemyX = currentstage.width / 2;
-  enemyY = currentstage.height / 2 + 40;
+  enemyX = 150;
+  enemyY = 325;
   gameStarted = true;
   playAgainButton.hide();
   loop();

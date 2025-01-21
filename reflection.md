@@ -14,6 +14,6 @@ distance of the sprite and attack to use dist(), but it was hard to get the corr
 Problems that I couldn't solve yet
 - Sometimes, the player sprite disappear for a moment after player move. 
 - The boss attack damage area was larger than it should be. 
-
+- I didn't insert background music
 
 

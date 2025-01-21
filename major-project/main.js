@@ -1,230 +1,367 @@
-// player image
-//all weapons in game
-const TOTAL_AMOUNT_OF_WEAPON = 6;
+let isfinalbossdead = false;
+let gameclear = false;
+let firstfloor;
+let finalfloor;
+let player; 
+let tileSize = 16; 
+let moveSpeed = 2; 
+let currentstage;
+let hasportalkey = true;
+let hasfinaldoorkey = true;
 
-let walk;
-let run;
-let death;
-let idle;
+// Enemy variables
+let enemyX, enemyY;
+let enemySpeed = 1.5;
+let playerHealth = 100;
+let enemyHealth = 50; 
 
-let act;
-let character;
-let allWeapons;
-let whatWeapon;
-let newWeapons;
-let newStuff;
-let playersX = 100;
-let playersY = 215;
+// Enemy variables
+let normalEnemySpriteSheet;
+let normalEnemyFrames = [];
+let normalEnemyCurrentFrame = 0;
+let normalEnemyFrameRateSpeed = 8; // Animation speed
 
-let showCurrentwep = 'red';
-let isdead = false;
-let inventory;
-let setting;
-let inventorystatus = "closed"; 
-let settingstatus = "closed";
-let howMuchWeapon = 0;
-let isholdWeapon = false;
-let isininventory = false;
-let newItem;
-let inventoryorder = 0;
-let bosswep;
-let bossheld;
-let first_stageimg;
-let second_stageimg;
-let final_stageimg;
+// Final boss variables
+let finalboss;
+let bossFrames = [];
+let bossCurrentFrame = 0;
+let bossFrameRateSpeed = 8; //Boss Animation speed
+let bossHealth = 75; 
+let bossX, bossY; 
+let bossAttackDamage = 0; 
+let bossAttackCooldown = 60; 
+let lastBossAttackFrame = 0; 
 
-//for boss
+// Final boss weapon variable
+let bossIsSwinging = false;
+let bossSwingAngle = 0;
+let bossSwingSpeed = 10;
+let bossWeaponSprite;
 
-let bosswalk;
-let bossdeath;
-let bossidle;
-let bossattack;
-let bossmoveDirect = "left";
-let bossdead = false;
-let boss;
-let bossact;
+// Player animation variables
+let playerSpriteSheet;
+let playerFrames = { down: [], left: [], right: [], up: [] };
+let currentFrame = 0;
+let frameRateSpeed = 8;
+let isMoving = false;
+let direction = 'down'; // Initial player direction
 
-let bossX = 300;
-let bossY = 200;
+// Weapon variables
+let weaponSprite;
+let isSwinging = false;
+let swingAngle = 0;
+let swingSpeed = 10; 
 
-let weaponV;
-let weaponsX = 100;
-let weaponsY = 200;
 
-let finalbossidle;
-
-let swords2020;
-let swords2021;
-let swords2022;
-let swords2023;
-let swords2024;
-let swordsarr = [];
-
+let gameStarted = true;
+let playAgainButton;
+let lastEnemyAttackFrame = 0; 
 function preload() {
-
-  bosswalk = loadImage("/major-project/allimage/bosswalk.png");
-  bossdeath = loadImage("/major-project/allimage/bossdeath.png");
-  bossidle = loadImage("/major-project/allimage/bossidle.png");
-  bossattack = loadImage("/major-project/allimage/crow_attack.png");
-  
-  swords2020 = loadImage("/major-project/allimage/2020weapon.png");
-  swords2021 = loadImage("/major-project/allimage/2021weapon.png");
-  swords2022 = loadImage("/major-project/allimage/2022weapon.png");
-  swords2023 = loadImage("/major-project/allimage/2023weapon.png");
-  swords2024 = loadImage("/major-project/allimage/2024weapon.png");
-
-  finalbossidle = loadImage("/major-project/allimage/Agis.png");
-
-  idle = loadImage("/major-project/player/idle.png");
-  walk = loadImage("/major-project/player/walk.png");
-  run = loadImage("/major-project/player/run.png");
-  death = loadImage("/major-project/player/death.png");
-
-  bloodblade = loadImage("/major-project/weapon/bloodblade.png");
-  metorblade = loadImage("/major-project/weapon/metorblade.png");
-  wizzarblade = loadImage("/major-project/weapon/wizzar.png");
-  bossweapon = loadImage("/major-project/weaponofBoss/firstweapon.png");
-  lord_of_flame_weapon = loadImage("/major-project/weaponofBoss/flamelord.png");
-  curvesword = loadImage("/major-project/weapon/curvesword.png");
-  first_stageimg = loadImage("/major-project/background-resource/first stage.png");
-  final_stageimg = loadImage("/major-project//background-resource/final stage.png");
-  second_stageimg = loadImage("/major-project/background-resource/second stage.png");
-
+  firstfloor = loadImage('/major-project/background-resource/first stage.png');
+  finalfloor = loadImage('/major-project/background-resource/final stage.png');
+  playerSpriteSheet = loadImage('/major-project/player/walk.png');
+  normalEnemySpriteSheet = loadImage('/major-project/allimage/walk.png');
+  weaponSprite = loadImage('/major-project/allimage/icon_32_2_13.png');
+  finalboss = loadImage('/major-project/allimage/bossidle.png');
+  bossWeaponSprite = loadImage('/major-project/allimage/icon_32_11.png');
 }
 
 function setup() {
-  createCanvas(800, 600);
-  inventory = new Inventory(3,5);
-  setting = new Setting(3,3);
+  currentstage = firstfloor;
+  createCanvas(currentstage.width, currentstage.height);
+  textSize(32);
+  textAlign(CENTER, CENTER);
 
-  weaponV = createVector(weaponsX, weaponsY);
-  act = idle;
-  whatWeapon = metorblade;
-  newStuff = lord_of_flame_weapon;
-  bossact = bossidle;
+  player = { x: currentstage.width / 4 + 30, y: 160, size: 32, moveSpeed: moveSpeed, health: 100 };
+  playerHealth = 100;
 
-  let swordWidth = swords2024.width / 6; // 10 
-  let swordHeight = swords2024.height / 5; // 3 
-  
-  for (let row = 0; row < 5; row++) {
-    for (let col = 0; col < 6; col++) {
-      let x = col * swordWidth;
-      let y = row * swordHeight;
-      let sword = swords2024.get(x, y, swordWidth, swordHeight); 
-      swordsarr.push(sword);
-    }
+  enemyX = 150;
+  enemyY = 325;
+
+  bossX = 350; // Final boss initial position
+  bossY = 150;
+
+  let frameWidth = playerSpriteSheet.width / 6;
+  let frameHeight = playerSpriteSheet.height / 4;
+
+  for (let i = 0; i < 9; i++) {
+    playerFrames.down.push(playerSpriteSheet.get(i * frameWidth, 0, frameWidth, frameHeight));
+    playerFrames.left.push(playerSpriteSheet.get(i * frameWidth, frameHeight, frameWidth, frameHeight));
+    playerFrames.right.push(playerSpriteSheet.get(i * frameWidth, frameHeight * 2, frameWidth, frameHeight));
+    playerFrames.up.push(playerSpriteSheet.get(i * frameWidth, frameHeight * 3, frameWidth, frameHeight));
   }
-  bossheld = swordsarr[28];
-  
-  inventory.addItem(new Item('Blood Blade', bloodblade));
-  inventory.addItem(new Item('Meteor Blade', metorblade));
-  inventory.addItem(new Item('Wizzar Blade', wizzarblade));
-  inventory.addItem(new Item('Boss Weapon', bossweapon));
-  inventory.addItem(new Item('Lord of Flame Weapon', lord_of_flame_weapon));
-  inventory.addItem(new Item('Curve Sword', curvesword));
-  
-  setting.addSetting(new Settingbutton('Sound'));
-  setting.addSetting(new Settingbutton('Graphics'));
-  setting.addSetting(new Settingbutton('Controls'));
-  setting.addSetting(new Settingbutton('Language'));
-  setting.addSetting(new Settingbutton('Brightness'));
 
-  
-  character = new Sprite(act, playersX, playersY);
-  allWeapons = new Weaponofplayer(whatWeapon, weaponsX, weaponsY);
-  newWeapons = new Weaponofnew(newStuff, 300, 200);
-  boss = new Boss(bossact, bossX,bossY);
-  bosswep = new Weaponofboss(bossheld, 300, 220);
-  
+  let enemyFrameWidth = normalEnemySpriteSheet.width / 8;
+  let enemyFrameHeight = normalEnemySpriteSheet.height;
+  for (let i = 0; i < 8; i++) {
+    normalEnemyFrames.push(normalEnemySpriteSheet.get(i * enemyFrameWidth, 0, enemyFrameWidth, enemyFrameHeight));
+  }
+
+  let bossFrameWidth = finalboss.width / 4;
+  let bossFrameHeight = finalboss.height;
+  for (let i = 0; i < 4; i++) {
+    bossFrames.push(finalboss.get(i * bossFrameWidth, 0, bossFrameWidth, bossFrameHeight));
+  }
+
+  playAgainButton = createButton('Play Again');
+  playAgainButton.position(width / 2 - 60, height / 2 + 50);
+  playAgainButton.size(120, 40);
+  playAgainButton.mousePressed(resetGame);
+  playAgainButton.hide();
 }
 
-function draw() { 
-  background("white");
+function draw() {
+  if (gameStarted) {
+    background(0);
+    image(currentstage, 0, 0);
 
-  
-  if (heartx < 20 ) {
-    act = death;
-    character.animationframe();
-  }
-  if (!isdead) {
-    //place of player weapon when player held weapon
-     playerattacking();
-    //place of boss weapon when boss held weapon
-     bossattacking();
-
-    // inventory display on Esc key, hide on U key
-    if (keyIsDown(27) && inventorystatus === "closed" && settingstatus === "closed") {  
-      inventorystatus = "opened"; 
-    }
-    if (keyIsDown(85) && inventorystatus === "opened") {
-      inventorystatus = "closed";
-    }
-
-    //key p
-    if (keyIsDown(80) && settingstatus === "closed" && inventorystatus === "closed") {  
-      settingstatus = "opened"; 
-    }
-    // key o
-    if (keyIsDown(79) && settingstatus === "opened") {
-      settingstatus = "closed";
-    }
-  
-  
-    //display hp,stamina, life only inventory is closed
-    if (inventorystatus === "closed" && settingstatus === "closed") {
-      //background(backgroundimg);
-      push();
-      //image(second_stageimg, 0, 0,width,height); // Display player
-
-      pop();
-      //square(character.x-20,character.y-20, character.x+20, character.y+20);
-
-      allWeapons.display();
-      allWeapons.update();
-      if (!isininventory) {
-        newWeapons.display();
+    let currentAnimation = playerFrames[direction];
+    if (isMoving) {
+      image(currentAnimation[currentFrame], player.x, player.y, player.size, player.size);
+      if (frameCount % frameRateSpeed === 0) {
+        currentFrame = (currentFrame + 1) % currentAnimation.length;
       }
-      character.show();
-      character.animationframe();
-      character.act();
-      boss.display();
-      boss.direct();
-      boss.animation();
-      boss.animationframe();
-      bosswep.update();
-      bosswep.display();
-
-    }
-    else if (inventorystatus === "opened" && settingstatus === "closed"){
-      background(0);
-      inventory.display();
-      fill("white");
-      textSize(20);
+    } else {
+      image(currentAnimation[0], player.x, player.y, player.size, player.size);
     }
 
-    else if (settingstatus === "opened") {
-      background(220);
-      setting.display();
-      fill("black");
-      textSize(20);
-      text('SETTING', width/2, 50);
+    if (isSwinging) swingWeapon();
+    drawEnemy();
+    drawFinalBoss();
+
+    fill(255);
+    textSize(16);
+    text("Health: " + max(playerHealth, 0), player.x - 20, player.y - 30);
+
+    if (currentstage === firstfloor && enemyHealth > 0) {
+      text("Enemy Health: " + max(enemyHealth, 0), enemyX - 20, enemyY - 30);
+    } else if (currentstage === finalfloor && bossHealth > 0) {
+      text("Boss Health: " + max(bossHealth, 0), bossX, bossY - 30);
+    }
+
+    if (playerHealth <= 0) {
+      gameStarted = false;
+      playerHealth = 0;
+    }
+  } else {
+    background(0);
+    textSize(32);
+    fill(255);
+    text("You Died", width / 2, height / 2 - 30);
+    playAgainButton.show();
+    noLoop();
+  }
+}
+
+function resetGame() {
+  playerHealth = 100;
+  enemyHealth = 100;
+  bossHealth = 200;
+  player.x = currentstage.width / 4 + 30;
+  player.y = 160;
+  enemyX = currentstage.width / 2;
+  enemyY = currentstage.height / 2 + 40;
+  gameStarted = true;
+  playAgainButton.hide();
+  loop();
+}
+
+function keyPressed() {
+  if (!gameStarted) return;
+
+  let nextX = player.x;
+  let nextY = player.y;
+  isMoving = true;
+
+  if (keyCode === UP_ARROW) {
+    nextY -= tileSize;
+  }
+  else if (keyCode === DOWN_ARROW) {
+    nextY += tileSize;
+  }
+  else if (keyCode === LEFT_ARROW) {
+    nextX -= tileSize;
+  }
+  else if (keyCode === RIGHT_ARROW) {
+    nextX += tileSize;
+  }
+
+  if (keyCode === 65 && !isSwinging) {
+    isSwinging = true;
+    swingAngle = 0;
+  }
+
+  if (!isBlocked(nextX, nextY)) {
+    player.x = nextX;
+    player.y = nextY;
+  }
+
+  player.x = constrain(player.x, 0, width - player.size);
+  player.y = constrain(player.y, 0, height - player.size);
+  
+     // Check if the player is near the portal at specific coordinates and presses 'E' to interact
+  if (player.x === 1587 && player.y === 48 && keyCode === 69) {
+    if (hasfinaldoorkey === true) {
+      interactWithnextdoor();
+    } 
+  } else if (player.x === 118 && player.y === 320 && keyCode === 69) {
+    if (hasportalkey === true) {
+      player.x = 915;
+      player.y = 272;
+    }
+  } else if (player.x === 915 && player.y === 272 && keyCode === 69) {
+    player.x = 134;
+    player.y = 320;
+  } else if (player.x === 358 && player.y === 0 && keyCode === 69 && currentstage === finalfloor && isfinalbossdead === true) {
+    alert("You win the game!");
+    background(0);
+    text("CONGRATUATION", 1000, height/2);
+    gameclear = true;
+  }
+}
+
+function keyReleased() {
+  if ([UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW].includes(keyCode)) {
+    isMoving = false;
+  }
+}
+
+function isBlocked(x, y) {
+  let tileColor = currentstage.get(x + player.size / 2, y + player.size / 2);
+  return red(tileColor) < 50 && green(tileColor) < 50 && blue(tileColor) < 50;
+}
+
+function drawEnemy(x, y) {
+  if (currentstage !== firstfloor || enemyHealth <= 0) {
+    return; // Stop rendering the enemy if not on the first floor or health is 0
+  }
+
+  // Enemy movement and attack 
+  let distanceToPlayer = dist(player.x, player.y, enemyX, enemyY);
+
+  if (playerHealth > 0 && distanceToPlayer <= 100) { // Adjust follow distance
+    let angleToPlayer = atan2(player.y - enemyY, player.x - enemyX);
+    enemyX += cos(angleToPlayer) * enemySpeed;
+    enemyY += sin(angleToPlayer) * enemySpeed;
+  }
+
+  if (playerHealth > 0 && distanceToPlayer <= 50) { // Adjust attack distance
+    if (frameCount - lastEnemyAttackFrame > 60) { 
+      playerHealth -= 10; // Decrease player health
+      lastEnemyAttackFrame = frameCount; 
+    }
+  }
+
+  // Draw enemy sprite
+  if (enemyHealth > 0) {
+    let currentAnimationFrame = normalEnemyFrames[normalEnemyCurrentFrame];
+    image(currentAnimationFrame, enemyX, enemyY, 32, 32);
+
+    if (frameCount % normalEnemyFrameRateSpeed === 0) {
+      normalEnemyCurrentFrame = (normalEnemyCurrentFrame + 1) % normalEnemyFrames.length;
     }
   }
 }
 
-function keyTyped() {
-  if (key === 'b' && !isininventory) {
-    isininventory = true;
-    newItem = new Item('newWeapons', newStuff);
-    inventory.addItem(newItem);
+
+function drawFinalBoss() {
+  if (isfinalbossdead) {
+    return; // Stop rendering if the boss is dead
+  }
+
+  if (currentstage !== finalfloor || bossHealth <= 0) {
+    if (bossHealth <= 0) {
+      isfinalbossdead = true;
+      bossAttackDamage = 0; // Boss stops attack
+    }
+    return;
+  }
+
+  // Draw boss animation
+  let currentFrame = bossFrames[bossCurrentFrame];
+  image(currentFrame, bossX, bossY, 64, 64);
+
+  if (frameCount % bossFrameRateSpeed === 0) {
+    bossCurrentFrame = (bossCurrentFrame + 1) % bossFrames.length;
+  }
+
+  // Boss follows the player
+  let distanceToPlayer = dist(player.x, player.y, bossX, bossY);
+  if (distanceToPlayer < 150) {
+    let angle = atan2(player.y - bossY, player.x - bossX);
+    bossX += cos(angle) * 1; // Adjust boss speed
+    bossY += sin(angle) * 1;
+  }
+
+  // Boss attack 
+  if (distanceToPlayer < 100 && frameCount - lastBossAttackFrame > bossAttackCooldown) {
+    bossIsSwinging = true; // Start the swing
+    lastBossAttackFrame = frameCount;
+  }
+
+  if (bossIsSwinging) {
+    swingBossWeapon(distanceToPlayer);
+  }
+}function swingBossWeapon(distanceToPlayer) {
+  push();
+  translate(bossX + 32, bossY + 32); 
+  rotate(radians(bossSwingAngle));
+  imageMode(CENTER);
+  image(bossWeaponSprite, 8, 0, 32, 32); // Draw the weapon
+  pop();
+
+  bossSwingAngle += bossSwingSpeed;
+
+  if (bossSwingAngle >= 360) {
+    bossIsSwinging = false;
+    bossSwingAngle = 0;
+
+    if (distanceToPlayer < 50 && bossAttackDamage > 0) { 
+      playerHealth -= bossAttackDamage; // Decrease player health
+    }
   }
 }
-function mousePressed() {
-  allWeapons.attack();
-  if (inventorystatus === "opened") {
-    inventory.checkItemClick(mouseX, mouseY);
+
+function swingWeapon() {
+  push();
+  translate(player.x + player.size / 2, player.y + player.size / 2);
+  rotate(radians(swingAngle));
+  imageMode(CENTER);
+  image(weaponSprite, 8, 0, 24, 24);
+  pop();
+
+  swingAngle += swingSpeed;
+
+  if (swingAngle >= 360) {
+    isSwinging = false;
+    swingAngle = 0;
+
+    if (currentstage === firstfloor) {
+      let distanceToEnemy = dist(player.x, player.y, enemyX, enemyY);
+      if (distanceToEnemy < 50) {
+        enemyHealth -= 25;
+      }
+    } else if (currentstage === finalfloor) {
+      let distanceToBoss = dist(player.x, player.y, bossX, bossY);
+      if (distanceToBoss < 50) {
+        bossHealth -= 25;
+
+        // Boss retaliates
+        playerHealth -= 20;
+      }
+    }
   }
-  if (settingstatus === "opened") {
-    setting.checkSettingClick(mouseX, mouseY);
+}
+
+
+function interactWithnextdoor() {
+  if (currentstage === firstfloor) {
+    currentstage = finalfloor;
+    player.x = finalfloor.width / 2 - 10;
+    player.y = finalfloor.height - 50;
+    enemyX = finalfloor.width / 2;
+    enemyY = finalfloor.height / 2 + 40;
+  } else {
+    alert("There is no portal here.");
   }
 }

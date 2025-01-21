@@ -11,8 +11,7 @@ Make 2d adventure dungeon game.
     - appearance
     - motion(like walk, run, jump, attack)
     - at least one weapon
-- minimap
-    - Display the location and player's current
+
 - background music and sound fx
 - background image
 
@@ -21,11 +20,10 @@ Make 2d adventure dungeon game.
     - Able to get by merchant, enemy or boss
 - Merchant,
     - Sold weapon and armor
-    - Upgrade weapon and armor
 
-- Make several playable character
-- Create some puzzle 
 - Create game difficulty level, 
     increase enemies's health and strength, make time limit
 - Item, 
     medicine, damage booster
+- minimap
+    - Display the location and player's current
